@@ -5,15 +5,43 @@ MtM <- function(M) {
     .Call('_gprcpp_MtM', PACKAGE = 'gprcpp', M)
 }
 
-AtB <- function(A, B) {
-    .Call('_gprcpp_AtB', PACKAGE = 'gprcpp', A, B)
-}
-
 A_solve <- function(M) {
     .Call('_gprcpp_A_solve', PACKAGE = 'gprcpp', M)
 }
 
 A_solve_B <- function(A, B) {
     .Call('_gprcpp_A_solve_B', PACKAGE = 'gprcpp', A, B)
+}
+
+A_solve_B_simple <- function(A, B) {
+    .Call('_gprcpp_A_solve_B_simple', PACKAGE = 'gprcpp', A, B)
+}
+
+symm_distance_matrix <- function(A) {
+    .Call('_gprcpp_symm_distance_matrix', PACKAGE = 'gprcpp', A)
+}
+
+distance_matrix <- function(A, B) {
+    .Call('_gprcpp_distance_matrix', PACKAGE = 'gprcpp', A, B)
+}
+
+symm_distance_matrix_old <- function(m1) {
+    .Call('_gprcpp_symm_distance_matrix_old', PACKAGE = 'gprcpp', m1)
+}
+
+k_y_nugget <- function(A, phi, nu, nugget) {
+    .Call('_gprcpp_k_y_nugget', PACKAGE = 'gprcpp', A, phi, nu, nugget)
+}
+
+k_A_B <- function(A, B, phi, nu, nugget) {
+    .Call('_gprcpp_k_A_B', PACKAGE = 'gprcpp', A, B, phi, nu, nugget)
+}
+
+gp_mean <- function(K_y_nug, K_A_B, y) {
+    .Call('_gprcpp_gp_mean', PACKAGE = 'gprcpp', K_y_nug, K_A_B, y)
+}
+
+gp_cov <- function(K_y_nug, K_new, K_A_B) {
+    .Call('_gprcpp_gp_cov', PACKAGE = 'gprcpp', K_y_nug, K_new, K_A_B)
 }
 
