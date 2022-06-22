@@ -1,6 +1,3 @@
-#' @useDynLib gprcpp
-#' @importFrom Rcpp sourceCpp
-
 #' Main GP-function
 #' @export
 gp_main <- function(x,
