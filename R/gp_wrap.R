@@ -1,8 +1,8 @@
 #' @useDynLib gprcpp
 #' @importFrom Rcpp sourceCpp
 
-#' @export
 #' Main GP-function
+#' @export
 gp_main <- function(x,
                     x_star,
                     y,
@@ -32,7 +32,7 @@ gp_main <- function(x,
   }
 
   # Getting the values for the function
-
+  # K_y <-
   # Getting the functions
 
 
