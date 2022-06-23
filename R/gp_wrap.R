@@ -1,4 +1,6 @@
-#' Main GP-function
+#' @useDynLib gprcpp
+#' @importFrom Rcpp sourceCpp
+
 #' @export
 gp_main <- function(x,
                     x_star,
@@ -29,8 +31,34 @@ gp_main <- function(x,
   }
 
   # Getting the values for the function
-  # K_y <-
+  K_y <- k_y_nugget(A = x,phi = phi,nu = nu,nugget = nugget)
+
   # Getting the functions
+  K_a_b <- k_A_B(A = x,B = x_star,phi = phi,nu = nu,nugget = nugget)
 
+  # Getting the K_star_star
+  K_star_star <- k_y_nugget(A = x_star,phi = phi,nu = nu,nugget = nugget)
 
+  # Getting the GP-mean
+  gp_mean <- gp_mean(K_y_nug = K_y,K_A_B = K_a_b,y = y)
+  gp_cov_matrix <- gp_cov(K_y_nug = K_y,K_new = K_star_star,K_A_B = K_a_b)
+
+  # Store the results
+  mean_sd <- list(y_hat = c(gp_mean),
+                  y_sd = sqrt(diag(gp_cov_matrix)))
+
+  class(mean_sd) <- "gp.object"
+
+  return(mean_sd)
 }
+
+
+ggplot()+
+  geom_point(data = tibble(x = x, y = y),mapping = aes(x = x, y = y))+
+  geom_line(data = tibble (x = x_star, y = mean_sd$y_hat),
+            mapping = aes(x = x, y = y),
+            col = "blue")+
+  geom_ribbon(data = tibble(x = x_star,
+                            ymin = mean_sd$y_hat-1.96*mean_sd$y_sd,
+                            ymax = mean_sd$y_hat+1.96*mean_sd$y_sd),
+              mapping = aes(x = x, ymax = ymax, ymin = ymin),alpha = 0.2)

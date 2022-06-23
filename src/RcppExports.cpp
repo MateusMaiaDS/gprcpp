@@ -13,7 +13,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // MtM
-inline MatrixXd MtM(const MapMatd& M);
+MatrixXd MtM(const MapMatd& M);
 RcppExport SEXP _gprcpp_MtM(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -24,7 +24,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // A_solve
-inline MatrixXd A_solve(const MapMatd& M);
+MatrixXd A_solve(const MapMatd& M);
 RcppExport SEXP _gprcpp_A_solve(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -35,7 +35,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // A_solve_B
-inline MatrixXd A_solve_B(const MapMatd& A, const MapMatd& B);
+MatrixXd A_solve_B(const MapMatd& A, const MapMatd& B);
 RcppExport SEXP _gprcpp_A_solve_B(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -47,7 +47,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // A_solve_B_simple
-inline MatrixXd A_solve_B_simple(const MapMatd& A, const MapMatd& B);
+MatrixXd A_solve_B_simple(const MapMatd& A, const MapMatd& B);
 RcppExport SEXP _gprcpp_A_solve_B_simple(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -59,7 +59,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // symm_distance_matrix
-inline MatrixXd symm_distance_matrix(const MapMatd& A);
+MatrixXd symm_distance_matrix(const MapMatd& A);
 RcppExport SEXP _gprcpp_symm_distance_matrix(SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -70,7 +70,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // distance_matrix
-inline MatrixXd distance_matrix(const MapMatd& A, const MapMatd& B);
+MatrixXd distance_matrix(const MapMatd& A, const MapMatd& B);
 RcppExport SEXP _gprcpp_distance_matrix(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -93,7 +93,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // k_y_nugget
-inline MatrixXd k_y_nugget(const MapMatd& A, const double phi, const double nu, const double nugget);
+MatrixXd k_y_nugget(const MapMatd& A, const double phi, const double nu, const double nugget);
 RcppExport SEXP _gprcpp_k_y_nugget(SEXP ASEXP, SEXP phiSEXP, SEXP nuSEXP, SEXP nuggetSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -107,7 +107,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // k_A_B
-inline MatrixXd k_A_B(const MapMatd& A, const MapMatd& B, const double phi, const double nu, const double nugget);
+MatrixXd k_A_B(const MapMatd& A, const MapMatd& B, const double phi, const double nu, const double nugget);
 RcppExport SEXP _gprcpp_k_A_B(SEXP ASEXP, SEXP BSEXP, SEXP phiSEXP, SEXP nuSEXP, SEXP nuggetSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -122,7 +122,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // gp_mean
-inline MatrixXd gp_mean(const MapMatd K_y_nug, const MapMatd K_A_B, const MapMatd y);
+MatrixXd gp_mean(const MapMatd K_y_nug, const MapMatd K_A_B, const MapMatd y);
 RcppExport SEXP _gprcpp_gp_mean(SEXP K_y_nugSEXP, SEXP K_A_BSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -135,7 +135,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // gp_cov
-inline MatrixXd gp_cov(const MapMatd K_y_nug, const MapMatd K_new, const MapMatd K_A_B);
+MatrixXd gp_cov(const MapMatd K_y_nug, const MapMatd K_new, const MapMatd K_A_B);
 RcppExport SEXP _gprcpp_gp_cov(SEXP K_y_nugSEXP, SEXP K_newSEXP, SEXP K_A_BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

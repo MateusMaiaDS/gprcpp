@@ -1,24 +1,22 @@
 #include <Rcpp.h>
 #include <RcppEigen.h>
+// [[Rcpp::depends(RcppEigen)]]
+// The line above (depends) it will make all the dependcies be included on the file
 #include "gprcpp_types.h"
 using namespace Rcpp;
 using namespace RcppEigen;
-using namespace std;
 
 using Eigen::Map;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using Eigen::LLT;
 using Eigen::Lower;
-using Eigen::Map;
 using Eigen::Upper;
-using Eigen::VectorXd;
-// [[Rcpp::depends(RcppEigen)]]
 
 
 
 // [[Rcpp::export]]
-inline MatrixXd MtM(const MapMatd& M){
+MatrixXd MtM(const MapMatd& M){
   int n(M.cols()); // Getting the number of columns from x
 
   return MatrixXd(n,n).setZero().selfadjointView<Lower>().
@@ -29,7 +27,7 @@ inline MatrixXd MtM(const MapMatd& M){
 
 
 // [[Rcpp::export]]
-inline MatrixXd A_solve(const MapMatd& M){
+MatrixXd A_solve(const MapMatd& M){
   int n(M.cols());
   MatrixXd I =  MatrixXd::Identity(n,n); // Creating a Identity matrix
   // return M.inverse(); // Solve the system Mx=I;
@@ -37,14 +35,14 @@ inline MatrixXd A_solve(const MapMatd& M){
 }
 
 // [[Rcpp::export]]
-inline MatrixXd A_solve_B(const MapMatd& A, const MapMatd& B){
+MatrixXd A_solve_B(const MapMatd& A, const MapMatd& B){
   int n(A.cols());
   MatrixXd I =  MatrixXd::Identity(n,n); // Creating a Identity matrix
   return A.llt().solve(I) * B; // Solve the system Mx=I;
 }
 
 // [[Rcpp::export]]
-inline MatrixXd A_solve_B_simple(const MapMatd& A, const MapMatd& B){
+MatrixXd A_solve_B_simple(const MapMatd& A, const MapMatd& B){
   int n(A.cols());
   MatrixXd I =  MatrixXd::Identity(n,n); // Creating a Identity matrix
   return A.llt().solve(B) ; // Solve the system Mx=I;
@@ -53,7 +51,7 @@ inline MatrixXd A_solve_B_simple(const MapMatd& A, const MapMatd& B){
 
 // Creating a function to create the squared sum matrix
 // [[Rcpp::export]]
-inline MatrixXd symm_distance_matrix(const MapMatd &A){
+MatrixXd symm_distance_matrix(const MapMatd &A){
   int nrow(A.rows());
   double squared_norm_aux;
   MatrixXd D = MatrixXd(nrow,nrow).setZero();
@@ -69,7 +67,7 @@ inline MatrixXd symm_distance_matrix(const MapMatd &A){
 
 // Creating a function to create the squared sum matrix
 // [[Rcpp::export]]
-inline MatrixXd distance_matrix(const MapMatd &A, const MapMatd &B){
+MatrixXd distance_matrix(const MapMatd &A, const MapMatd &B){
   int nrow1(A.rows());
   int nrow2(B.rows());
   int ncol1(A.cols());
@@ -116,7 +114,7 @@ NumericMatrix symm_distance_matrix_old(NumericMatrix m1) {
 // Building the kernel matrix
 
 // [[Rcpp::export]]
-inline MatrixXd k_y_nugget(const MapMatd &A,
+MatrixXd k_y_nugget(const MapMatd &A,
                                      const double phi,
                                      const double nu,
                                      const double nugget){
@@ -135,7 +133,7 @@ inline MatrixXd k_y_nugget(const MapMatd &A,
 }
 
 // [[Rcpp::export]]
-inline MatrixXd k_A_B(const MapMatd &A,
+MatrixXd k_A_B(const MapMatd &A,
                       const MapMatd &B,
                       const double phi,
                       const double nu,
@@ -157,7 +155,7 @@ inline MatrixXd k_A_B(const MapMatd &A,
 
 // Get the GP-mean
 // [[Rcpp::export]]
-inline MatrixXd gp_mean(const MapMatd K_y_nug,
+MatrixXd gp_mean(const MapMatd K_y_nug,
                 const MapMatd K_A_B,
                 const MapMatd y){
 
@@ -168,7 +166,7 @@ inline MatrixXd gp_mean(const MapMatd K_y_nug,
 
 // Get the GP-cov
 // [[Rcpp::export]]
-inline MatrixXd gp_cov( const MapMatd K_y_nug,
+MatrixXd gp_cov( const MapMatd K_y_nug,
                         const MapMatd K_new,
                         const MapMatd K_A_B){
 
