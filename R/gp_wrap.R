@@ -7,7 +7,8 @@ gp_main <- function(x,
                     y,
                     gp_param = list(phi = 0.1,
                                     nugget = 0.1,
-                                    nu = 1)){
+                                    nu = 1),
+                    phi_sample = FALSE){
   # Checking the arguments
   if(!is.matrix(x)){
     stop("Insert a valid 'x' matrix")
@@ -22,9 +23,17 @@ gp_main <- function(x,
   }
 
   # Getting the parameters values
-  phi <- gp_param[["phi"]]
   nugget <- gp_param[["nugget"]]
   nu <- gp_param[["nu"]]
+
+  # Getting the phi sample if is required
+  if(phi_sample){
+    phi_post <- phi_post_sample(X = x,y = y,n_mcmc = 2000,n_burn = 500,
+                                nu = nu,nugget = nugget,phi_init = 0.1)
+    phi <- mean(phi_post)
+  } else {
+    phi <- gp_param[["phi"]]
+  }
 
   if(any(is.null(phi),is.null(nugget),is.null(nu))){
     stop("Insert a valid parameters list")
@@ -48,6 +57,7 @@ gp_main <- function(x,
                   y_sd = sqrt(diag(gp_cov_matrix)))
 
   class(mean_sd) <- "gp.object"
+  cat(paste0("The phi value is",phi,"\n"))
 
   return(mean_sd)
 }
