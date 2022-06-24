@@ -4,5 +4,5 @@ A Gaussian Processes implementation in RCPP
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("MateusMaiaDS/gpbart")
+devtools::install_github("MateusMaiaDS/gprcpp")
 ```
