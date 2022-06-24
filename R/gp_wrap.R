@@ -53,12 +53,4 @@ gp_main <- function(x,
 }
 
 
-ggplot()+
-  geom_point(data = tibble(x = x, y = y),mapping = aes(x = x, y = y))+
-  geom_line(data = tibble (x = x_star, y = mean_sd$y_hat),
-            mapping = aes(x = x, y = y),
-            col = "blue")+
-  geom_ribbon(data = tibble(x = x_star,
-                            ymin = mean_sd$y_hat-1.96*mean_sd$y_sd,
-                            ymax = mean_sd$y_hat+1.96*mean_sd$y_sd),
-              mapping = aes(x = x, ymax = ymax, ymin = ymin),alpha = 0.2)
+
