@@ -5,6 +5,7 @@
 #include "gprcpp_types.h"
 using namespace Rcpp;
 using namespace RcppEigen;
+using namespace std;
 
 using Eigen::Map;
 using Eigen::MatrixXd;
@@ -43,6 +44,13 @@ MatrixXd A_solve_B(const MapMatd& A, const MapMatd& B){
 
 // [[Rcpp::export]]
 MatrixXd A_solve_B_simple(const MapMatd& A, const MapMatd& B){
+  int n(A.cols());
+  MatrixXd I =  MatrixXd::Identity(n,n); // Creating a Identity matrix
+  return A.llt().solve(B) ; // Solve the system Mx=I;
+}
+
+// [[Rcpp::export]]
+MatrixXd A_solve_B_simple_matrixXd(const MatrixXd& A, const MapMatd& B){
   int n(A.cols());
   MatrixXd I =  MatrixXd::Identity(n,n); // Creating a Identity matrix
   return A.llt().solve(B) ; // Solve the system Mx=I;
@@ -175,7 +183,57 @@ MatrixXd gp_cov( const MapMatd K_y_nug,
 
 
 
+//[[Rcpp::export]]
+double phi_log_post(const MapMatd& X,
+                    const MapMatd& y,
+                    const double phi,
+                    const double nu,
+                    const double nugget){
 
+  // Getting the covariance matrix
+  MatrixXd K_y_value = k_y_nugget(X,phi,nu,nugget);
+  return -0.5*log(2*3.1415926*K_y_value.determinant())-
+    0.5*(y.adjoint()*A_solve_B_simple_matrixXd(K_y_value,y))(1,1);
+}
+
+//[[Rcpp::export]]
+VectorXd phi_post_sample( const MapMatd X,
+                 const MapMatd y,
+                 const int n_mcmc,
+                 const int n_burn,
+                 const double nu,
+                 const double nugget,
+                 double phi_init = 0.1) {
+
+  // Getting the n_post
+  VectorXd phi_post_samples;
+  double l_old, l_new, phi_new,acceptance; // Calculating the log_likelihoods
+  int curr_iter = 0;
+
+  for(int i=0;i<n_mcmc;i++){
+
+    phi_new = R::runif(0,10);
+    l_old = phi_log_post(X,y,phi_init,nu,nugget);
+    l_new = phi_log_post(X,y,phi_new,nu,nugget);
+
+    // Checking the acceptance
+    acceptance = exp(l_new-l_old);
+    cout << acceptance << endl;
+
+    if(R::runif(0,1)<=acceptance){
+      phi_init = phi_new;
+    };
+
+    // Saving the post-burn samples
+    if(i >=n_burn){
+      phi_post_samples[curr_iter] = phi_init;
+      curr_iter++;
+    };
+  }
+
+  return phi_post_samples;
+
+}
 
 
 
