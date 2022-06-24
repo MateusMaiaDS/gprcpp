@@ -1,5 +1,6 @@
 #include <Rcpp.h>
 #include <RcppEigen.h>
+#include <vector>
 // [[Rcpp::depends(RcppEigen)]]
 // The line above (depends) it will make all the dependcies be included on the file
 #include "gprcpp_types.h"
@@ -187,6 +188,7 @@ double get_log_D(MatrixXd X){
       return Dvec.array().log().sum();
 }
 
+
 //[[Rcpp::export]]
 double phi_log_post(const MapMatd& X,
                     const MapMatd& y,
@@ -196,12 +198,12 @@ double phi_log_post(const MapMatd& X,
 
   // Getting the covariance matrix
   MatrixXd K_y_value = k_y_nugget(X,phi,nu,nugget);
-  return -0.5*log(2*3.1415926*get_log_D(K_y_value))-
+  return -0.5*get_log_D(2*3.1415926*K_y_value)-
     0.5*(y.adjoint()*A_solve_B_simple_matrixXd(K_y_value,y))(1,1);
 }
 
 //[[Rcpp::export]]
-VectorXd phi_post_sample( const MapMatd X,
+NumericVector phi_post_sample( const MapMatd X,
                  const MapMatd y,
                  const int n_mcmc,
                  const int n_burn,
@@ -210,9 +212,8 @@ VectorXd phi_post_sample( const MapMatd X,
                  double phi_init = 0.1) {
 
   // Getting the n_post
-  VectorXd phi_post_samples;
+  NumericVector phi_post_samples;
   double l_old, l_new, phi_new,acceptance; // Calculating the log_likelihoods
-  int curr_iter = 0;
 
   for(int i=0;i<n_mcmc;i++){
 
@@ -222,17 +223,16 @@ VectorXd phi_post_sample( const MapMatd X,
 
     // Checking the acceptance
     acceptance = exp(l_new-l_old);
-    // cout << l_old << endl;
 
     if(R::runif(0,1)<=acceptance){
       phi_init = phi_new;
-    };
+    }
 
     // Saving the post-burn samples
     if(i >=n_burn){
-      phi_post_samples[curr_iter] = phi_init;
-      curr_iter++;
-    };
+      phi_post_samples.push_back(phi_init);
+    }
+
   }
 
   return phi_post_samples;
