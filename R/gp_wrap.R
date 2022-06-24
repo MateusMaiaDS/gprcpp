@@ -57,7 +57,7 @@ gp_main <- function(x,
                   y_sd = sqrt(diag(gp_cov_matrix)))
 
   class(mean_sd) <- "gp.object"
-  cat(paste0("The phi value is",phi,"\n"))
+  cat(paste0("The phi value is ",phi,"\n"))
 
   return(mean_sd)
 }
