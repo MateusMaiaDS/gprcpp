@@ -181,7 +181,11 @@ MatrixXd gp_cov( const MapMatd K_y_nug,
   return K_new-K_A_B.adjoint()*(A_solve_B_simple(K_y_nug,K_A_B));
 }
 
-
+// [[Rcpp::export]]
+double get_log_D(MatrixXd X){
+      VectorXd Dvec(X.ldlt().vectorD());
+      return Dvec.array().log().sum();
+}
 
 //[[Rcpp::export]]
 double phi_log_post(const MapMatd& X,
@@ -192,7 +196,7 @@ double phi_log_post(const MapMatd& X,
 
   // Getting the covariance matrix
   MatrixXd K_y_value = k_y_nugget(X,phi,nu,nugget);
-  return -0.5*log(2*3.1415926*K_y_value.determinant())-
+  return -0.5*log(2*3.1415926*get_log_D(K_y_value))-
     0.5*(y.adjoint()*A_solve_B_simple_matrixXd(K_y_value,y))(1,1);
 }
 
@@ -218,7 +222,7 @@ VectorXd phi_post_sample( const MapMatd X,
 
     // Checking the acceptance
     acceptance = exp(l_new-l_old);
-    cout << acceptance << endl;
+    // cout << l_old << endl;
 
     if(R::runif(0,1)<=acceptance){
       phi_init = phi_new;
