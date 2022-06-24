@@ -189,7 +189,7 @@ double get_log_D(MatrixXd X){
 }
 
 
-//[[Rcpp::export]]
+// [[Rcpp::export]]
 double phi_log_post(const MapMatd& X,
                     const MapMatd& y,
                     const double phi,
@@ -202,8 +202,8 @@ double phi_log_post(const MapMatd& X,
     0.5*(y.adjoint()*A_solve_B_simple_matrixXd(K_y_value,y))(1,1);
 }
 
-//[[Rcpp::export]]
-NumericVector phi_post_sample( const MapMatd X,
+// [[Rcpp::export]]
+NumericVector phi_post_sample(const MapMatd X,
                  const MapMatd y,
                  const int n_mcmc,
                  const int n_burn,

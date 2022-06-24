@@ -58,6 +58,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// A_solve_B_simple_matrixXd
+MatrixXd A_solve_B_simple_matrixXd(const MatrixXd& A, const MapMatd& B);
+RcppExport SEXP _gprcpp_A_solve_B_simple_matrixXd(SEXP ASEXP, SEXP BSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const MatrixXd& >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const MapMatd& >::type B(BSEXP);
+    rcpp_result_gen = Rcpp::wrap(A_solve_B_simple_matrixXd(A, B));
+    return rcpp_result_gen;
+END_RCPP
+}
 // symm_distance_matrix
 MatrixXd symm_distance_matrix(const MapMatd& A);
 RcppExport SEXP _gprcpp_symm_distance_matrix(SEXP ASEXP) {
@@ -147,12 +159,56 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_log_D
+double get_log_D(MatrixXd X);
+RcppExport SEXP _gprcpp_get_log_D(SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< MatrixXd >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_log_D(X));
+    return rcpp_result_gen;
+END_RCPP
+}
+// phi_log_post
+double phi_log_post(const MapMatd& X, const MapMatd& y, const double phi, const double nu, const double nugget);
+RcppExport SEXP _gprcpp_phi_log_post(SEXP XSEXP, SEXP ySEXP, SEXP phiSEXP, SEXP nuSEXP, SEXP nuggetSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const MapMatd& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const MapMatd& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const double >::type phi(phiSEXP);
+    Rcpp::traits::input_parameter< const double >::type nu(nuSEXP);
+    Rcpp::traits::input_parameter< const double >::type nugget(nuggetSEXP);
+    rcpp_result_gen = Rcpp::wrap(phi_log_post(X, y, phi, nu, nugget));
+    return rcpp_result_gen;
+END_RCPP
+}
+// phi_post_sample
+NumericVector phi_post_sample(const MapMatd X, const MapMatd y, const int n_mcmc, const int n_burn, const double nu, const double nugget, double phi_init);
+RcppExport SEXP _gprcpp_phi_post_sample(SEXP XSEXP, SEXP ySEXP, SEXP n_mcmcSEXP, SEXP n_burnSEXP, SEXP nuSEXP, SEXP nuggetSEXP, SEXP phi_initSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const MapMatd >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const MapMatd >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const int >::type n_mcmc(n_mcmcSEXP);
+    Rcpp::traits::input_parameter< const int >::type n_burn(n_burnSEXP);
+    Rcpp::traits::input_parameter< const double >::type nu(nuSEXP);
+    Rcpp::traits::input_parameter< const double >::type nugget(nuggetSEXP);
+    Rcpp::traits::input_parameter< double >::type phi_init(phi_initSEXP);
+    rcpp_result_gen = Rcpp::wrap(phi_post_sample(X, y, n_mcmc, n_burn, nu, nugget, phi_init));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_gprcpp_MtM", (DL_FUNC) &_gprcpp_MtM, 1},
     {"_gprcpp_A_solve", (DL_FUNC) &_gprcpp_A_solve, 1},
     {"_gprcpp_A_solve_B", (DL_FUNC) &_gprcpp_A_solve_B, 2},
     {"_gprcpp_A_solve_B_simple", (DL_FUNC) &_gprcpp_A_solve_B_simple, 2},
+    {"_gprcpp_A_solve_B_simple_matrixXd", (DL_FUNC) &_gprcpp_A_solve_B_simple_matrixXd, 2},
     {"_gprcpp_symm_distance_matrix", (DL_FUNC) &_gprcpp_symm_distance_matrix, 1},
     {"_gprcpp_distance_matrix", (DL_FUNC) &_gprcpp_distance_matrix, 2},
     {"_gprcpp_symm_distance_matrix_old", (DL_FUNC) &_gprcpp_symm_distance_matrix_old, 1},
@@ -160,6 +216,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gprcpp_k_A_B", (DL_FUNC) &_gprcpp_k_A_B, 5},
     {"_gprcpp_gp_mean", (DL_FUNC) &_gprcpp_gp_mean, 3},
     {"_gprcpp_gp_cov", (DL_FUNC) &_gprcpp_gp_cov, 3},
+    {"_gprcpp_get_log_D", (DL_FUNC) &_gprcpp_get_log_D, 1},
+    {"_gprcpp_phi_log_post", (DL_FUNC) &_gprcpp_phi_log_post, 5},
+    {"_gprcpp_phi_post_sample", (DL_FUNC) &_gprcpp_phi_post_sample, 7},
     {NULL, NULL, 0}
 };
 
