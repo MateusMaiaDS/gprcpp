@@ -50,13 +50,13 @@ MatrixXd A_solve_B_simple(const MapMatd& A, const MapMatd& B){
   return A.llt().solve(B) ; // Solve the system Mx=I;
 }
 
+
 // [[Rcpp::export]]
-MatrixXd A_solve_B_simple_matrixXd(const MatrixXd& A, const MapMatd& B){
+MatrixXd A_solve_B_simple_mat(const MatrixXd& A, const MapMatd& B){
   int n(A.cols());
   MatrixXd I =  MatrixXd::Identity(n,n); // Creating a Identity matrix
   return A.llt().solve(B) ; // Solve the system Mx=I;
 }
-
 
 // Creating a function to create the squared sum matrix
 // [[Rcpp::export]]
@@ -198,9 +198,10 @@ double phi_log_post(const MapMatd& X,
 
   // Getting the covariance matrix
   MatrixXd K_y_value = k_y_nugget(X,phi,nu,nugget);
-  return -0.5*get_log_D(2*3.1415926*K_y_value)-
-    0.5*(y.adjoint()*A_solve_B_simple_matrixXd(K_y_value,y))(1,1);
+  return -0.5*get_log_D(2*3.1415926*K_y_value)-0.5*(y.adjoint()*A_solve_B_simple_mat(K_y_value,y)).coeff(1,1);
 }
+
+
 
 // [[Rcpp::export]]
 NumericVector phi_post_sample(const MapMatd X,

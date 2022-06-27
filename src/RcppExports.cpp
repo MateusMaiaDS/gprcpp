@@ -58,15 +58,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// A_solve_B_simple_matrixXd
-MatrixXd A_solve_B_simple_matrixXd(const MatrixXd& A, const MapMatd& B);
-RcppExport SEXP _gprcpp_A_solve_B_simple_matrixXd(SEXP ASEXP, SEXP BSEXP) {
+// A_solve_B_simple_mat
+MatrixXd A_solve_B_simple_mat(const MatrixXd& A, const MapMatd& B);
+RcppExport SEXP _gprcpp_A_solve_B_simple_mat(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const MatrixXd& >::type A(ASEXP);
     Rcpp::traits::input_parameter< const MapMatd& >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(A_solve_B_simple_matrixXd(A, B));
+    rcpp_result_gen = Rcpp::wrap(A_solve_B_simple_mat(A, B));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -208,7 +208,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gprcpp_A_solve", (DL_FUNC) &_gprcpp_A_solve, 1},
     {"_gprcpp_A_solve_B", (DL_FUNC) &_gprcpp_A_solve_B, 2},
     {"_gprcpp_A_solve_B_simple", (DL_FUNC) &_gprcpp_A_solve_B_simple, 2},
-    {"_gprcpp_A_solve_B_simple_matrixXd", (DL_FUNC) &_gprcpp_A_solve_B_simple_matrixXd, 2},
+    {"_gprcpp_A_solve_B_simple_mat", (DL_FUNC) &_gprcpp_A_solve_B_simple_mat, 2},
     {"_gprcpp_symm_distance_matrix", (DL_FUNC) &_gprcpp_symm_distance_matrix, 1},
     {"_gprcpp_distance_matrix", (DL_FUNC) &_gprcpp_distance_matrix, 2},
     {"_gprcpp_symm_distance_matrix_old", (DL_FUNC) &_gprcpp_symm_distance_matrix_old, 1},

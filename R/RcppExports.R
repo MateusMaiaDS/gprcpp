@@ -17,8 +17,8 @@ A_solve_B_simple <- function(A, B) {
     .Call('_gprcpp_A_solve_B_simple', PACKAGE = 'gprcpp', A, B)
 }
 
-A_solve_B_simple_matrixXd <- function(A, B) {
-    .Call('_gprcpp_A_solve_B_simple_matrixXd', PACKAGE = 'gprcpp', A, B)
+A_solve_B_simple_mat <- function(A, B) {
+    .Call('_gprcpp_A_solve_B_simple_mat', PACKAGE = 'gprcpp', A, B)
 }
 
 symm_distance_matrix <- function(A) {
